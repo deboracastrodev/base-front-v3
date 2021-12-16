@@ -1,0 +1,21 @@
+ARG STAGE
+
+# build stage
+FROM node:12.20-alpine AS build_stage
+WORKDIR /app
+COPY package.json .
+RUN yarn
+COPY . .
+CMD ["sh", "-c", "yarn run serve --port 80"]
+
+# compile project
+FROM build_stage AS builded_stage
+ARG STAGE
+RUN sh -c "yarn run build:${STAGE}"
+
+# copy files and nginx conf
+FROM nginx:stable-alpine AS publish_site
+COPY  ./.nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builded_stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
