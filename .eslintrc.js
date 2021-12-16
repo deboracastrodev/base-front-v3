@@ -6,17 +6,32 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    '@vue/prettier'
+    'plugin:@typescript-eslint/recommended',
+    '@vue/typescript/recommended',
+    '@vue/prettier',
+    '@vue/prettier/@typescript-eslint'
   ],
   parserOptions: {
-    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of import
+    parser: "@typescript-eslint/parser", 
+    ecmaVersion: 2020,
+    sourceType: "module", 
   },
-  plugins: ['prettier'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   rules: {
     "prettier/prettier": 1,
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    '@typescript-eslint/camelcase': 'off',
+    "@typescript-eslint/no-namespace": "off",
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-empty-interface': [
+      'error',
+      {
+        allowSingleExtends: true
+      }
+    ]
   },
   overrides: [
     {
